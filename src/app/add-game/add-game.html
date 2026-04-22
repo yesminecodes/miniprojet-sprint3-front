@@ -1,0 +1,50 @@
+<div class="container">
+
+    <div>
+        <h2>Ajouter un Jeu :</h2>
+    </div>
+
+    <form [formGroup]="myForm" (ngSubmit)="addGame()">
+
+        <div class="col-sm-4 col-md-4 col-lg-4 mb-3">
+            <label>Nom Game</label>
+            <input type="text" formControlName="nomGame" class="form-control" />
+            <span *ngIf="myForm.get('nomGame')?.hasError('required') && myForm.get('nomGame')?.touched"
+                class="text-danger">Le nom est obligatoire !</span>
+            <span *ngIf="myForm.get('nomGame')?.hasError('minlength') && myForm.get('nomGame')?.touched"
+                class="text-danger">Le nom doit contenir au moins 3 caractères !</span>
+        </div>
+
+        <div class="col-sm-2 col-md-2 col-lg-2 mb-3">
+            <label>Prix Game</label>
+            <input type="number" formControlName="prixGame" class="form-control" />
+            <span *ngIf="myForm.get('prixGame')?.hasError('required') && myForm.get('prixGame')?.touched"
+                class="text-danger">Le prix est obligatoire !</span>
+            <span *ngIf="myForm.get('prixGame')?.hasError('min') && myForm.get('prixGame')?.touched"
+                class="text-danger">Le prix doit être positif !</span>
+        </div>
+
+        <div class="col-sm-4 col-md-4 col-lg-4 mb-3">
+            <label>Date création</label>
+            <input type="date" formControlName="dateCreation" class="form-control" />
+            <span *ngIf="myForm.get('dateCreation')?.hasError('required') && myForm.get('dateCreation')?.touched"
+                class="text-danger">La date est obligatoire !</span>
+        </div>
+
+        <div class="col-sm-4 col-md-4 col-lg-4 mb-3">
+            <label>Type</label>
+            <select class="form-control form-control-lg" formControlName="idType">
+                <option *ngFor="let type of types" [ngValue]="type.idType">{{ type.nomType }}</option>
+            </select>
+            <span *ngIf="myForm.get('idType')?.hasError('required') && myForm.get('idType')?.touched"
+                class="text-danger">Le type est obligatoire !</span>
+        </div>
+
+        <div class="mt-2">
+            <button type="submit" class="btn btn-success" [disabled]="myForm.invalid">
+                Ajouter
+            </button>
+        </div>
+
+    </form>
+</div>

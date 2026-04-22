@@ -1,0 +1,26 @@
+<div class="container mt-3">
+
+    <app-update-type [type]="currentType" [ajout]="ajout" (typeUpdated)="typeUpdated($event)">
+    </app-update-type>
+
+    <table class="table table-striped mt-4">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom Catégorie</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let type of types">
+                <td>{{ type.idType }}</td>
+                <td>{{ type.nomType }}</td>
+                <td>{{ type.descriptionType }}</td>
+                <td>
+                    <button class="btn btn-success btn-sm" (click)="editType(type)">Editer</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

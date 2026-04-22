@@ -1,0 +1,52 @@
+<div class="container">
+    <div>
+        <h2>Modifier un Jeu :</h2>
+    </div>
+
+    <form [formGroup]="myForm" (ngSubmit)="updateGame()">
+
+        <div hidden class="col-sm-2 col-md-2 col-lg-2">
+            <label>ID Game</label>
+            <input type="text" formControlName="idGame" class="form-control" />
+        </div>
+
+        <div class="col-sm-4 col-md-4 col-lg-4">
+            <label>Nom Game</label>
+            <input type="text" formControlName="nomGame" class="form-control" />
+            <span *ngIf="myForm.get('nomGame')?.hasError('required') && myForm.get('nomGame')?.touched" class="text-danger">
+                Le nom est obligatoire !
+            </span>
+        </div>
+
+        <div class="col-sm-2 col-md-2 col-lg-2">
+            <label>Prix Game</label>
+            <input type="number" formControlName="prixGame" class="form-control" />
+            <span *ngIf="myForm.get('prixGame')?.hasError('required') && myForm.get('prixGame')?.touched" class="text-danger">
+                Le prix est obligatoire !
+            </span>
+        </div>
+
+        <div class="col-sm-4 col-md-4 col-lg-4">
+            <label>Date création</label>
+            <input type="date" formControlName="dateCreation" class="form-control" />
+        </div>
+
+        <div class="col-sm-4 col-md-4 col-lg-4">
+            <label>Type</label>
+
+            <select class="form-control form-control-lg" formControlName="idType">
+                <option *ngFor="let type of types" [ngValue]="type.idType">
+                    {{ type.nomType }}
+                </option>
+            </select>
+
+        </div>
+
+        <div class="mt-2">
+            <button type="submit" class="btn btn-success" [disabled]="myForm.invalid">
+                Modifier
+            </button>
+        </div>
+
+    </form>
+</div>

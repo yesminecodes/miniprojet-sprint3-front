@@ -1,0 +1,44 @@
+<div class="container">
+     <form class="form-inline">      
+        <div class="form-group mx-sm-3 mb-2 mt-2 "> 
+            <label>Nom Game en tapant</label> 
+  <input class="form-control"  #searchTerm (keyup)="onKeyUp(searchTerm.value)"> 
+        </div> 
+    </form>
+    <!--<form class="form-inline">
+        <div class="form-group mx-sm-3 mb-2 mt-2 ">
+            <label>Nom game en tapant</label>
+            <input #nom [(ngModel)]="searchTerm" name="searchTerm" class="form-control">
+        </div>
+    </form>-->
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <table class="table table-striped">
+                <tr>
+                    <th>Id</th>
+                    <th>Nom</th>
+                    <th>Prix</th>
+                    <th>Date Création</th>
+                    <th>Type</th>
+                </tr>
+                @for (game of games ; track game.idGame ; let last = $last)
+                {<tbody>
+                    <tr>
+                        <td>{{game.idGame}}</td>
+                        <td>{{game.nomGame}}</td>
+                        <td>{{game.prixGame == 0 ? 'Free' : game.prixGame +' $'}}</td>
+                        <td>{{game.dateCreation | date:'dd/MM/yyyy'}}</td>
+                        @if(game.type){
+                        <td>{{game.type.nomType}}</td> }
+                        @else {
+                        <td>PAS DE TYPE</td>
+                        }
+                        @if(authService.isAdmin()) {
+                        <td><a class="btn btn-danger" (click)="supprimerGame(game)">Supprimer</a></td>
+                        <td><a class="btn btn-success" [routerLink]="['/updateGame',game.idGame]">Modifier</a></td>}
+                    </tr>
+                </tbody>}
+            </table>
+        </div>
+    </div>
+</div>

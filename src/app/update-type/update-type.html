@@ -1,0 +1,16 @@
+<form>
+    <div>
+        <label>Nom Catégorie</label>
+        <input type="text" [(ngModel)]="type!.nomType" name="nomCategorie" class="form-control"
+            placeholder="Entrez un nom de catégorie...">
+    </div>
+    <div class="mb-2">
+      <label>Description</label>
+      <textarea [(ngModel)]="type!.descriptionType" name="descriptionType" class="form-control"></textarea>
+    </div>
+    <div class="mt-2">
+        <button type="submit" [disabled]="!type!.nomType" class="btn btn-success" (click)="saveType()">{{ajout ?
+            'Ajouter' : 'Modifier'}}
+        </button>
+    </div>
+</form>

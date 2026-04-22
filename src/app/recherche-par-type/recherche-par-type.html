@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="container">
+        <div class="col-sm-4 col-md-4 col-lg-4 mb-4">
+            <label>Types </label>
+            <select class="form-control form-control-lg" id="idType" name="idType" [(ngModel)]="IdType" (change)="onChange()">
+                @for(type of types;track type.idType)
+                {
+                <option value="{{type.idType}}"> {{type.nomType}} </option>
+                }
+            </select>
+        </div>
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <table class="table table-striped">
+                    <tr>
+                        <th>N°</th>
+                        <th>Id</th>
+                        <th>Nom</th>
+                        <th>Prix</th>
+                        <th>Date Création</th>
+                        <th>Type</th>
+                    </tr>
+                    @for (game of games; track game.idGame; let index =$index)
+                    {
+                    <tbody>
+                        <tr>
+                            <td>{{index+1}}</td>
+                            <td>{{game.idGame}}</td>
+                            <td>{{game.nomGame}}</td>
+                            <td>{{game.prixGame == 0 ? 'Free' : game.prixGame + ' $'}}</td>
+                            <td>{{game.dateCreation | date:'dd/MM/yyyy'}}</td>
+                            <td>{{game.type?.nomType||"-"}}</td>
+                            @if(authService.isAdmin()) {
+                            <td><a class="btn btn-danger" (click)="supprimerGame(game)">Supprimer</a></td>
+                            <td><a class="btn btn-success" [routerLink]="['/updateGame',game.idGame]">Modifier</a></td>}
+                        </tr>
+                    </tbody>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
