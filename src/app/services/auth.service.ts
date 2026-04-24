@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   apiURL: string = 'http://localhost:8081/users';
@@ -16,7 +16,10 @@ export class AuthService {
 
   private helper = new JwtHelperService();
 
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+  ) {}
 
   login(user: User) {
     return this.http.post(this.apiURL + '/login', user, { observe: 'response' });
@@ -65,5 +68,21 @@ export class AuthService {
     this.isloggedIn = false;
     localStorage.removeItem('jwt');
     this.router.navigate(['/login']);
+  }
+
+  registerUser(user: User) {
+    return this.http.post<User>(this.apiURL + '/register', user, { observe: 'response' });
+  }
+
+  public regitredUser: User = new User();
+  setRegistredUser(user: User) {
+    this.regitredUser = user;
+  }
+  getRegistredUser() {
+    return this.regitredUser;
+  }
+
+  validateEmail(code: string) {
+    return this.http.get<User>(this.apiURL + '/verifyEmail/' + code);
   }
 }

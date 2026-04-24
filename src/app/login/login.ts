@@ -7,13 +7,17 @@ import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-login',
   imports: [FormsModule],
-  templateUrl: './login.html'
+  templateUrl: './login.html',
 })
 export class Login {
   err: number = 0;
   user = new User();
+  message: string = 'login ou mot de passe erronés..';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+  ) {}
 
   onLoggedin() {
     this.authService.login(this.user).subscribe({
@@ -22,9 +26,11 @@ export class Login {
         this.authService.saveToken(jwToken);
         this.router.navigate(['/']);
       },
-      error: (err: any) => {
+      error: (err) => {
         this.err = 1;
-      }
+        if (err.error.errorCause == 'disabled')
+          this.message = 'Utilisateur désactivé, Veuillez contacter votre Administrateur';
+      },
     });
   }
 }
