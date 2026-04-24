@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # frontend-sprint-2-
 =======
 # MiniprojetFront
@@ -61,3 +62,6 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
 >>>>>>> fa4f792 (initial commit)
+=======
+# miniprojet-sprint4-front
+>>>>>>> f89f936ba8663c1d866212f00102f680743ebd74
