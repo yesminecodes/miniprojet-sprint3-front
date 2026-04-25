@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Game } from '../model/game.model';
 import { GameService } from '../services/game.service';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -12,8 +12,7 @@ import { AuthService } from '../services/auth.service';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink, DatePipe],
   templateUrl: './recherche-par-type.html',
-  styles: [``
-  ]
+  styles: [`]`]
 })
 export class RechercheParType implements OnInit {
   games: Game[] = [];
@@ -22,7 +21,11 @@ export class RechercheParType implements OnInit {
   allGames!: Game[];
   searchTerm!: string;
 
-  constructor(private gameService: GameService, public authService: AuthService) { }
+  constructor(
+    private gameService: GameService,
+    public authService: AuthService,
+    private cdr: ChangeDetectorRef  // ✅
+  ) {}
 
   ngOnInit(): void {
     this.gameService.listeTypes().subscribe(typeWrapper => {
@@ -31,21 +34,17 @@ export class RechercheParType implements OnInit {
         this.IdType = this.types[0].idType;
         this.onChange();
       }
+      this.cdr.detectChanges(); // ✅
     });
   }
-
 
   onChange() {
     const typeIdNum = Number(this.IdType);
-    console.log("Selected Type ID:", typeIdNum);
-
     this.gameService.listeGame().subscribe(allGames => {
       this.games = allGames.filter(g => g.type?.idType === typeIdNum);
-      console.log("Games filtered by type:", this.games);
+      this.cdr.detectChanges(); // ✅
     });
   }
-
-
 
   supprimerGame(g: Game) {
     if (confirm("Etes-vous sûr ?")) {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Type } from '../model/type.model';
 import { GameService } from '../services/game.service';
 import { CommonModule } from '@angular/common';
@@ -12,14 +12,16 @@ import { Game } from '../model/game.model';
   imports: [CommonModule, UpdateType]
 })
 export class ListeType implements OnInit {
-
   types: Type[] = [];
   currentType: Type = { idType: 0, nomType: '', descriptionType: '' };
   ajout: boolean = true;
   games: Game[] = [];
   selectedTypeId!: number;
 
-  constructor(private gameService: GameService) { }
+  constructor(
+    private gameService: GameService,
+    private cdr: ChangeDetectorRef  // ✅
+  ) {}
 
   ngOnInit(): void {
     this.chargerTypes();
@@ -28,7 +30,7 @@ export class ListeType implements OnInit {
   chargerTypes() {
     this.gameService.listeTypes().subscribe(res => {
       this.types = res._embedded.types;
-      console.log("Types chargés :", this.types);
+      this.cdr.detectChanges(); // ✅
     });
   }
 
@@ -40,13 +42,11 @@ export class ListeType implements OnInit {
   typeUpdated(t: Type) {
     if (this.ajout) {
       this.gameService.addType(t).subscribe(res => {
-        console.log("Type ajouté :", res);
         this.currentType = { idType: 0, nomType: '', descriptionType: '' };
         this.chargerTypes();
       });
     } else {
       this.gameService.updateType(t).subscribe(res => {
-        console.log("Type mis à jour :", res);
         this.ajout = true;
         this.currentType = { idType: 0, nomType: '', descriptionType: '' };
         this.chargerTypes();
@@ -58,7 +58,7 @@ export class ListeType implements OnInit {
     this.selectedTypeId = typeId;
     this.gameService.listeGame().subscribe(allGames => {
       this.games = allGames.filter(g => g.type?.idType === typeId);
-      console.log("Games filtered by type:", this.games);
+      this.cdr.detectChanges(); // ✅
     });
   }
 }

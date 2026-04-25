@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark"> 
   <div class="container-fluid"> 
-    <a class="navbar-brand" href="#">Gestion des Jeux</a> 
+    <a class="navbar-brand" routerLink="/games">Gestion des Jeux</a> 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"  
 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
  aria-expanded="false" aria-label="Toggle navigation"> 
@@ -20,7 +20,7 @@ role="button" data-bs-toggle="dropdown" aria-expanded="false">
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown"> 
             @if(authService.isAdmin()) {
             <li><a class="dropdown-item" routerLink="/add-game">Ajouter</a></li> }
-            <li><a class="dropdown-item" href="#">Lister</a></li> 
+            <li><a class="dropdown-item" routerLink="/games">Lister</a></li> 
             <li> <a class="dropdown-item" routerLink="/rechercheParType" >Recherche Par Type</a></li>
             <li><a class="dropdown-item" routerLink="/rechercheParNom" >Recherche Par Nom</a></li>
             <li><a class="dropdown-item" routerLink="/listeTypes" >Gestion des types</a></li>

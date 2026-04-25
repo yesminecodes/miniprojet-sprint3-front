@@ -13,17 +13,17 @@ import { Register } from './register/register';
 import { VerifEmail } from './verif-email/verif-email';
 
 export const routes: Routes = [ 
-  {path: 'login', component: Login},
-  {path: 'logout', component: Logout},
-  {path:'register',component:Register},
-  { path: "games", component: Games, runGuardsAndResolvers: 'always' },
-  { path: "add-game", component: AddGame,canActivate: [gameGuard] },
-  { path: "", redirectTo: "games", pathMatch: "full" },
-  { path: "updateGame/:id", component: UpdateGame },
-  { path: "rechercheParType", component: RechercheParType },
-  { path: "rechercheParNom", component: RechercheParNom },
-  {path:  'app-forbidden', component: Forbidden},
-  {path: "listeTypes", component : ListeType,canActivate: [gameGuard]},
-  { path: 'verifEmail', component: VerifEmail },
+  { path: 'login', component: Login },
+  { path: 'logout', component: Logout },
+  { path: 'register', component: Register },
+  { path: 'games', component: Games, runGuardsAndResolvers: 'always' },
+  { path: 'add-game', component: AddGame, canActivate: [gameGuard], runGuardsAndResolvers: 'always' },
+  { path: '', redirectTo: 'games', pathMatch: 'full' },
+  { path: 'updateGame/:id', component: UpdateGame, runGuardsAndResolvers: 'always' },
+  { path: 'rechercheParType', component: RechercheParType, runGuardsAndResolvers: 'always' },
+  { path: 'rechercheParNom', component: RechercheParNom, runGuardsAndResolvers: 'always' },
+  { path: 'app-forbidden', component: Forbidden },
+  { path: 'listeTypes', component: ListeType, canActivate: [gameGuard], runGuardsAndResolvers: 'always' },
+  { path: 'verifEmail/:email', component: VerifEmail },
 ];
 

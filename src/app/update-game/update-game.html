@@ -1,52 +1,75 @@
 <div class="container">
-    <div>
-        <h2>Modifier un Jeu :</h2>
+  <h2>Modifier un Jeu :</h2>
+
+  <form [formGroup]="myForm" (ngSubmit)="updateGame()">
+    <div hidden>
+      <input type="text" formControlName="idGame" class="form-control" />
     </div>
 
-    <form [formGroup]="myForm" (ngSubmit)="updateGame()">
+    <div class="col-sm-4 mt-2">
+      <label>Nom Game</label>
+      <input type="text" formControlName="nomGame" class="form-control" />
+      <span *ngIf="myForm.get('nomGame')?.hasError('required') && myForm.get('nomGame')?.touched"
+        class="text-danger">Le nom est obligatoire !</span>
+    </div>
 
-        <div hidden class="col-sm-2 col-md-2 col-lg-2">
-            <label>ID Game</label>
-            <input type="text" formControlName="idGame" class="form-control" />
+    <div class="col-sm-2 mt-2">
+      <label>Prix Game</label>
+      <input type="number" formControlName="prixGame" class="form-control" />
+      <span *ngIf="myForm.get('prixGame')?.hasError('required') && myForm.get('prixGame')?.touched"
+        class="text-danger">Le prix est obligatoire !</span>
+    </div>
+
+    <div class="col-sm-4 mt-2">
+      <label>Date création</label>
+      <input type="date" formControlName="dateCreation" class="form-control" />
+    </div>
+
+    <div class="col-sm-4 mt-2">
+      <label>Type</label>
+      <select class="form-control" formControlName="idType">
+        <option *ngFor="let type of types" [ngValue]="type.idType">{{ type.nomType }}</option>
+      </select>
+    </div>
+
+    <!-- IMAGE GALLERY -->
+    <div class="mt-4">
+      <label class="fw-bold mb-2">Images du jeu :</label>
+      <div *ngIf="gameImages.length === 0" class="text-muted">Aucune image.</div>
+      <div class="d-flex flex-wrap gap-3">
+        <div *ngFor="let img of gameImages" class="position-relative">
+          <img
+            [src]="apiurl + '/image/load/' + img.idImage"
+            style="width: 150px; height: 100px; object-fit: cover; border-radius: 6px;"
+            (error)="onImgError($event)"
+          />
+          <button
+            type="button"
+            class="btn btn-danger btn-sm position-absolute top-0 end-0"
+            style="padding: 1px 6px;"
+            (click)="supprimerImage(img)"
+          >✕</button>
         </div>
+      </div>
+    </div>
 
-        <div class="col-sm-4 col-md-4 col-lg-4">
-            <label>Nom Game</label>
-            <input type="text" formControlName="nomGame" class="form-control" />
-            <span *ngIf="myForm.get('nomGame')?.hasError('required') && myForm.get('nomGame')?.touched" class="text-danger">
-                Le nom est obligatoire !
-            </span>
-        </div>
+    <!-- ADD NEW IMAGE -->
+    <div class="col-sm-6 mt-3">
+      <label class="mb-2">Ajouter une image :</label>
+      <input type="file" (change)="onImageUpload($event)" class="form-control" />
+    </div>
 
-        <div class="col-sm-2 col-md-2 col-lg-2">
-            <label>Prix Game</label>
-            <input type="number" formControlName="prixGame" class="form-control" />
-            <span *ngIf="myForm.get('prixGame')?.hasError('required') && myForm.get('prixGame')?.touched" class="text-danger">
-                Le prix est obligatoire !
-            </span>
-        </div>
+    <div *ngIf="imagePreview" class="mt-2">
+      <label>Aperçu :</label>
+      <img [src]="imagePreview" style="width: 200px; height: 130px; object-fit: cover; border-radius: 6px;" />
+    </div>
 
-        <div class="col-sm-4 col-md-4 col-lg-4">
-            <label>Date création</label>
-            <input type="date" formControlName="dateCreation" class="form-control" />
-        </div>
+    <div class="mt-2">
+      <button type="button" (click)="onAddImageGame()" class="btn btn-success">Ajouter Image</button>
+    </div>
 
-        <div class="col-sm-4 col-md-4 col-lg-4">
-            <label>Type</label>
-
-            <select class="form-control form-control-lg" formControlName="idType">
-                <option *ngFor="let type of types" [ngValue]="type.idType">
-                    {{ type.nomType }}
-                </option>
-            </select>
-
-        </div>
-
-        <div class="mt-2">
-            <button type="submit" class="btn btn-success" [disabled]="myForm.invalid">
-                Modifier
-            </button>
-        </div>
-
-    </form>
+    <div class="mt-3">
+      <button type="submit" class="btn btn-primary" [disabled]="myForm.invalid">Modifier</button>
+    </div>
+  </form>
 </div>

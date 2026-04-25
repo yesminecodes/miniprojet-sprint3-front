@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { User } from '../model/user.model';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule],
+  imports: [FormsModule,RouterLink],
   templateUrl: './login.html',
 })
 export class Login {
@@ -24,7 +24,7 @@ export class Login {
       next: (data) => {
         let jwToken = data.headers.get('Authorization')!;
         this.authService.saveToken(jwToken);
-        this.router.navigate(['/']);
+        this.router.navigate(['/games']);
       },
       error: (err) => {
         this.err = 1;

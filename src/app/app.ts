@@ -5,7 +5,7 @@ import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, ReactiveFormsModule],
+  imports: [RouterOutlet, RouterLink, ReactiveFormsModule], 
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
@@ -14,12 +14,5 @@ export class App {
 
   onLogout() {
     this.authService.logout();
-  }
-
-  ngOnInit() {
-    this.authService.loadToken();
-    if (this.authService.getToken() == null || this.authService.isTokenExpired()) {
-      this.router.navigate(['/login']);
-    }
   }
 }

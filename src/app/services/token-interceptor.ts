@@ -1,27 +1,26 @@
 import { HttpInterceptorFn } from '@angular/common/http';
-import { AuthService } from './auth.service';
 import { inject } from '@angular/core';
+import { AuthService } from './auth.service';
 
-const exclude_array: string[] = ['/login', '/register', '/verifyEmail'];
+const excludeUrls = ['/login', '/register', '/verifyEmail'];
 
-function toExclude(url: string): boolean {
-  for (var i = 0; i < exclude_array.length; i++) {
-    if (url.search(exclude_array[i]) !== -1) return true;
-  }
-  return false;
+function shouldExclude(url: string): boolean {
+  return excludeUrls.some(excluded => url.includes(excluded));
 }
 
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
 
-  if (!toExclude(req.url)) {
-    let jwt = authService.getToken();
-    let reqWithToken = req.clone({
+  const jwt = localStorage.getItem('jwt'); 
+
+  if (jwt && !shouldExclude(req.url)) {
+    const clonedReq = req.clone({
       setHeaders: {
-        Authorization: 'Bearer ' + jwt
+        Authorization: `Bearer ${jwt}`
       }
     });
-    return next(reqWithToken);
+    return next(clonedReq);
   }
+
   return next(req);
 };

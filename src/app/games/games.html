@@ -1,32 +1,50 @@
 <div class="container">
-    <div class="card shadow mb-4">
-        <div class="card-body">
-            <table class="table table-striped">
-                <tr>
-                    <th>N°</th>
-                    <th>Id</th>
-                    <th>Nom</th>
-                    <th>Prix</th>
-                    <th>Date Création</th>
-                    <th>Type</th>
-                </tr>
-                @for (game of games; track game.idGame; let index =$index)
-                {
-                <tbody>
-                    <tr>
-                        <td>{{index+1}}</td>
-                        <td>{{game.idGame}}</td>
-                        <td>{{game.nomGame}}</td>
-                        <td>{{game.prixGame == 0 ? 'Free' : game.prixGame + ' $'}}</td>
-                        <td>{{game.dateCreation | date:'dd/MM/yyyy'}}</td>
-                        <td>{{game.type?.nomType||"-"}}</td>
-                        @if(authService.isAdmin()) {
-                        <td><a class="btn btn-danger" (click)="supprimerGame(game)">Supprimer</a></td>
-                        <td><a class="btn btn-success" [routerLink]="['/updateGame',game.idGame]">Modifier</a></td> }
-                    </tr>
-                </tbody>
-                }
-            </table>
-        </div>
+  <div class="card shadow mb-4">
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>N°</th>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Prix</th>
+            <th>Date Création</th>
+            <th>Type</th>
+            <th>Image</th>
+            @if (authService.isAdmin()) {
+              <th>Actions</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (game of games; track game.idGame; let index = $index) {
+            <tr>
+              <td>{{ index + 1 }}</td>
+              <td>{{ game.idGame }}</td>
+              <td>{{ game.nomGame }}</td>
+              <td>{{ game.prixGame == 0 ? 'Free' : game.prixGame + ' $' }}</td>
+              <td>{{ game.dateCreation | date: 'dd/MM/yyyy' }}</td>
+              <td>{{ game.type?.nomType || '-' }}</td>
+              <td>
+                <ng-container *ngIf="game.images && game.images.length > 0; else noImg">
+                  <img
+                    [src]="apiurl + '/image/load/' + game.images[0].idImage"
+                    style="height: 50px; width: 100px; object-fit: cover;"
+                    (error)="onImgError($event)"
+                  />
+                </ng-container>
+                <ng-template #noImg>-</ng-template>
+              </td>
+              @if (authService.isAdmin()) {
+                <td>
+                  <a class="btn btn-danger me-1" (click)="supprimerGame(game)">Supprimer</a>
+                  <a class="btn btn-success" [routerLink]="['/updateGame', game.idGame]">Modifier</a>
+                </td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
     </div>
+  </div>
 </div>

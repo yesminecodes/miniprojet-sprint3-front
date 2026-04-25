@@ -19,7 +19,7 @@ export class AuthService {
   constructor(
     private router: Router,
     private http: HttpClient,
-  ) {}
+  ) {this.loadToken();}
 
   login(user: User) {
     return this.http.post(this.apiURL + '/login', user, { observe: 'response' });

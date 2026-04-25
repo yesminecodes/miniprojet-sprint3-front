@@ -18,6 +18,7 @@ export class Register implements OnInit {
   confirmPassword?: string;
   myForm!: FormGroup;
   err: string = '';
+  loading: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -35,17 +36,31 @@ export class Register implements OnInit {
     });
   }
 
-  onRegister() {
-    this.authService.registerUser(this.user).subscribe({
-      next: (res) => {                                        
-        this.toaster.success("Veuillez confirmer votre email","Confirmation");
-        this.router.navigate(["/verifEmail", this.user.email]);  
-      },
-      error: (err: any) => {
-        if (err.status === 400) {                          
-          this.err = err.error.message;
-        }
+ onRegister() {
+  this.loading = true;
+  if (this.myForm.invalid) return;
+
+  const formData = this.myForm.value;
+
+  this.authService.registerUser(formData).subscribe({
+    next: (res) => {
+      this.authService.setRegistredUser({
+        email: formData.email,
+        password: formData.password,
+        username: formData.username,
+        roles: [],
+        enabled: false
+      });
+
+      this.toaster.success("Veuillez confirmer votre email", "Confirmation");
+      this.router.navigate(["/verifEmail", formData.email]);
+    },
+    error: (err: any) => {
+      if (err.status === 400) {
+        this.err = err.error.message;
       }
-    });
-  }
+      this.loading = false; 
+    }
+  });
+}
 }
