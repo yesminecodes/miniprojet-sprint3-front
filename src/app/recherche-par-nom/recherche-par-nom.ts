@@ -22,14 +22,14 @@ export class RechercheParNom implements OnInit {
   constructor(
     private gameService: GameService,
     public authService: AuthService,
-    private cdr: ChangeDetectorRef  // ✅ inject
+    private cdr: ChangeDetectorRef  
   ) {}
 
   ngOnInit(): void {
     this.gameService.listeGame().subscribe(games => {
       this.allgames = games;
       this.games = games;
-      this.cdr.detectChanges(); // ✅ force view update
+      this.cdr.detectChanges(); 
     });
   }
 
@@ -37,7 +37,7 @@ export class RechercheParNom implements OnInit {
     this.games = this.allgames.filter(item =>
       item.nomGame?.toLowerCase().includes(filterText)
     );
-    this.cdr.detectChanges(); // ✅
+    this.cdr.detectChanges(); 
   }
 
   supprimerGame(g: Game) {
@@ -48,7 +48,7 @@ export class RechercheParNom implements OnInit {
           this.gameService.listeGame().subscribe(games => {
             this.allgames = games;
             this.games = games;
-            this.cdr.detectChanges(); // ✅
+            this.cdr.detectChanges(); 
           });
         },
         error: (err) => console.error('Error deleting game:', err)

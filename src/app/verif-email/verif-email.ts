@@ -7,8 +7,7 @@ import { AuthService } from '../services/auth.service';
   selector: 'app-verif-email',
   standalone: true,
   imports: [],
-  templateUrl: './verif-email.html',
-  styleUrl: './verif-email.css',
+  templateUrl: './verif-email.html'
 })
 export class VerifEmail implements OnInit {
   code: string = '';

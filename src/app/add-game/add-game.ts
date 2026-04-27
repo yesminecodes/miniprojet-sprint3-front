@@ -53,24 +53,12 @@ export class AddGame implements OnInit {
   this.newGame.dateCreation = this.myForm.value.dateCreation;
   this.newGame.type = this.types.find(t => t.idType == this.myForm.value.idType)!;
 
-  // Step 1: save the game
-  this.gameService.ajouterGame(this.newGame).subscribe({
-    next: (game) => {
-      // Step 2: upload image to filesystem using the new game's ID
-      this.gameService.uploadImageFS(this.uploadedImage, this.uploadedImage.name, game.idGame).subscribe({
-        next: () => {
-          this.router.navigate(['/games']);
-        },
-        error: (err) => {
-          console.error('Image upload failed:', err);
-          // game was saved but image failed — handle as needed
-          this.router.navigate(['/games']);
-        }
-      });
-    },
-    error: (err) => {
-      console.error('Failed to add game:', err);
+  this.gameService.ajouterGame(this.newGame).subscribe((game) => {
+    if (this.uploadedImage) {
+      this.gameService.uploadImageGame(this.uploadedImage, game.idGame!).subscribe(()=>{});
+      this.gameService.uploadImageFS(this.uploadedImage, game.idGame!).subscribe(()=>{});
     }
+    this.router.navigate(['/games']);
   });
 }
   onImageUpload(event: any) {

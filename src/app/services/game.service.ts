@@ -58,26 +58,26 @@ export class GameService {
       .pipe(map((allGames) => allGames.filter((g) => g.type?.idType === idType)));
   }
 
-  // ✅ Upload image (general)
   uploadImage(file: File, filename: string): Observable<Image> {
     const formData = new FormData();
-    formData.append('image', file, filename);
+    formData.append('image', file);
     return this.http.post<Image>(`${this.apiURL}/image/upload`, formData);
   }
 
-  // ✅ Upload image for a game (MULTIPLE IMAGES)
-  uploadImageGame(file: File, filename: string, idGame: number): Observable<any> {
-    const formData = new FormData();
-    formData.append('image', file, filename);
-    return this.http.post(`${this.apiURL}/image/uploadImageGame/${idGame}`, formData);
-  }
+  uploadImageGame(file: File, idGame: number): Observable<any> {
+  const formData = new FormData();
+  formData.append('image', file);
 
-  // 🔥🔥🔥 THIS WAS MISSING (VERY IMPORTANT)
+  return this.http.post(
+    `${this.apiURL}/image/uploadImageGame/${idGame}`,
+    formData
+  );
+}
+
   getImagesGame(idGame: number): Observable<Image[]> {
     return this.http.get<Image[]>(`${this.apiURL}/image/getImagesGame/${idGame}`);
   }
 
-  // ✅ Load one image (by image ID)
   loadImage(id: number): Observable<Image> {
     return this.http.get<Image>(`${this.apiURL}/image/get/info/${id}`);
   }
@@ -86,10 +86,13 @@ export class GameService {
     return this.http.delete(`${this.apiURL}/image/delete/${id}`);
   }
 
-  // ❌ OPTIONAL: DO NOT USE for multi-images
-  uploadImageFS(file: File, filename: string, idGame: number): Observable<any> {
-    const formData = new FormData();
-    formData.append('image', file, filename);
-    return this.http.post(`${this.apiURL}/image/uploadFS/${idGame}`, formData);
-  }
+  uploadImageFS(file: File, idGame: number): Observable<any> {
+  const formData = new FormData();
+  formData.append('image', file);
+
+  return this.http.post(
+    `${this.apiURL}/image/uploadFS/${idGame}`,
+    formData
+  );
+}
 }

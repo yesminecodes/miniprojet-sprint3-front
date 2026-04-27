@@ -20,17 +20,24 @@ export class Login {
   ) {}
 
   onLoggedin() {
-    this.authService.login(this.user).subscribe({
-      next: (data) => {
-        let jwToken = data.headers.get('Authorization')!;
-        this.authService.saveToken(jwToken);
-        this.router.navigate(['/games']);
-      },
-      error: (err) => {
+  this.authService.login(this.user).subscribe({
+    next: (response) => {
+      const token = response.headers.get('Authorization');
+
+      if (!token) {
         this.err = 1;
-        if (err.error.errorCause == 'disabled')
-          this.message = 'Utilisateur désactivé, Veuillez contacter votre Administrateur';
-      },
-    });
-  }
+        this.message = "Token missing";
+        return;
+      }
+
+      this.authService.saveToken(token);
+      this.router.navigate(['/games']);
+    },
+
+    error: () => {
+      this.err = 1;
+      this.message = 'Login ou mot de passe erronés';
+    }
+  });
+}
 }

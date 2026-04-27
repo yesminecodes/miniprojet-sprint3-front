@@ -86,7 +86,7 @@ export class UpdateGame implements OnInit {
 
   onAddImageGame() {
     if (!this.uploadedImage || !this.currentGame.idGame) return;
-    this.gameService.uploadImageGame(this.uploadedImage, this.uploadedImage.name, this.currentGame.idGame).subscribe({
+    this.gameService.uploadImageGame(this.uploadedImage, this.currentGame.idGame).subscribe({
       next: () => {
         this.imagePreview = null;
         this.loadImages();

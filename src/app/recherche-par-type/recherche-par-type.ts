@@ -24,7 +24,7 @@ export class RechercheParType implements OnInit {
   constructor(
     private gameService: GameService,
     public authService: AuthService,
-    private cdr: ChangeDetectorRef  // ✅
+    private cdr: ChangeDetectorRef 
   ) {}
 
   ngOnInit(): void {
@@ -34,7 +34,7 @@ export class RechercheParType implements OnInit {
         this.IdType = this.types[0].idType;
         this.onChange();
       }
-      this.cdr.detectChanges(); // ✅
+      this.cdr.detectChanges();
     });
   }
 
@@ -42,7 +42,7 @@ export class RechercheParType implements OnInit {
     const typeIdNum = Number(this.IdType);
     this.gameService.listeGame().subscribe(allGames => {
       this.games = allGames.filter(g => g.type?.idType === typeIdNum);
-      this.cdr.detectChanges(); // ✅
+      this.cdr.detectChanges(); 
     });
   }
 

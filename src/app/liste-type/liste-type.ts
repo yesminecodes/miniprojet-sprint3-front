@@ -20,7 +20,7 @@ export class ListeType implements OnInit {
 
   constructor(
     private gameService: GameService,
-    private cdr: ChangeDetectorRef  // ✅
+    private cdr: ChangeDetectorRef 
   ) {}
 
   ngOnInit(): void {
@@ -30,7 +30,7 @@ export class ListeType implements OnInit {
   chargerTypes() {
     this.gameService.listeTypes().subscribe(res => {
       this.types = res._embedded.types;
-      this.cdr.detectChanges(); // ✅
+      this.cdr.detectChanges(); 
     });
   }
 
@@ -58,7 +58,7 @@ export class ListeType implements OnInit {
     this.selectedTypeId = typeId;
     this.gameService.listeGame().subscribe(allGames => {
       this.games = allGames.filter(g => g.type?.idType === typeId);
-      this.cdr.detectChanges(); // ✅
+      this.cdr.detectChanges(); 
     });
   }
 }
